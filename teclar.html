@@ -1,0 +1,520 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💝 Valentine Surprise for Teclar 💝</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 30px 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            border: 3px solid #ffd7d7;
+        }
+
+        h1 {
+            color: #ff3366;
+            font-size: 2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(255,51,102,0.2);
+        }
+
+        .heart {
+            font-size: 4em;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            margin: 20px 0;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.2); }
+            35% { transform: scale(1.1); }
+            45% { transform: scale(1.3); }
+            55% { transform: scale(1); }
+        }
+
+        .message {
+            font-size: 1.3em;
+            color: #444;
+            margin: 25px 0;
+            padding: 20px;
+            background: #fff0f0;
+            border-radius: 20px;
+            border: 2px dashed #ff9999;
+            line-height: 1.6;
+        }
+
+        .surprise-btn {
+            background: #ff3366;
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.5em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255,51,102,0.4);
+            margin: 20px 0;
+            font-weight: bold;
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            touch-action: manipulation;
+        }
+
+        .surprise-btn:active {
+            transform: scale(0.95);
+            background: #ff1a4f;
+        }
+
+        .surprise-btn:disabled {
+            opacity: 0.5;
+            transform: none;
+            pointer-events: none;
+        }
+
+        .vibration-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            color: #666;
+        }
+
+        .vibration-dot {
+            width: 15px;
+            height: 15px;
+            background: #ff3366;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .vibrating .vibration-dot {
+            animation: vibrate 0.1s infinite;
+        }
+
+        @keyframes vibrate {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-3px); }
+            75% { transform: translateX(3px); }
+        }
+
+        .love-meter {
+            margin: 25px 0;
+        }
+
+        .meter-bar {
+            width: 100%;
+            height: 20px;
+            background: #ffe0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .meter-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff6b6b, #ff3366);
+            transition: width 0.3s;
+            border-radius: 10px;
+        }
+
+        .floating-hearts {
+            position: relative;
+            height: 100px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .heart-float {
+            position: absolute;
+            font-size: 1.5em;
+            animation: float 3s ease-in-out infinite;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-50px); opacity: 0; }
+        }
+
+        .note {
+            color: #888;
+            font-size: 0.9em;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        .error-msg {
+            color: #ff3366;
+            font-size: 0.9em;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💖 Happy Valentine's Day! 💖</h1>
+        
+        <div class="heart" id="heart">❤️</div>
+        
+        <div class="message" id="message">
+            Dear Teclar,<br><br>
+            You're the best friend anyone could ask for!<br>
+            <span style="font-size: 1.2em;">💝 I love you! 💝</span>
+        </div>
+
+        <div class="vibration-indicator" id="vibrationIndicator">
+            <span class="vibration-dot"></span>
+            <span id="vibrationText">Ready for your surprise!</span>
+            <span class="vibration-dot"></span>
+        </div>
+
+        <button class="surprise-btn" id="surpriseBtn">
+            💝 Open Your Surprise 💝
+        </button>
+
+        <div class="love-meter">
+            <div style="color: #ff3366;">Love Level</div>
+            <div class="meter-bar">
+                <div class="meter-fill" id="loveMeter"></div>
+            </div>
+        </div>
+
+        <div class="floating-hearts" id="floatingHearts"></div>
+        
+        <div class="note">
+            Made with 💖 just for you, Teclar!
+        </div>
+        <div class="error-msg" id="errorMsg"></div>
+    </div>
+
+    <script>
+        // Wait for DOM to load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded - Valentine surprise ready for Teclar!');
+            
+            // Get elements
+            const surpriseBtn = document.getElementById('surpriseBtn');
+            const message = document.getElementById('message');
+            const vibrationIndicator = document.getElementById('vibrationIndicator');
+            const vibrationText = document.getElementById('vibrationText');
+            const loveMeter = document.getElementById('loveMeter');
+            const floatingHearts = document.getElementById('floatingHearts');
+            const heart = document.getElementById('heart');
+            const errorMsg = document.getElementById('errorMsg');
+            
+            // State
+            let isPlaying = false;
+            let audioContext = null;
+            let intervals = [];
+            let timeouts = [];
+            
+            // Sweet love melodies (frequencies in Hz)
+            const melodies = [
+                [523, 587, 659, 698, 784, 880, 988],  // Higher octave
+                [392, 440, 494, 523, 587, 659, 698],  // Middle range
+                [262, 330, 392, 523, 659, 784, 988],  // Ascending
+                [262, 294, 330, 349, 392, 440, 494]   // C major scale
+            ];
+            
+            // Love messages
+            const loveMessages = [
+                "💖 You're amazing, Teclar! 💖",
+                "🌸 Best friend forever! 🌸",
+                "💕 My heart smiles when you're around! 💕",
+                "✨ You make life beautiful! ✨",
+                "🎵 You're the melody in my heart! 🎵",
+                "💝 I'm so lucky to have you! 💝"
+            ];
+            
+            // Clean up function
+            function cleanup() {
+                console.log('Cleaning up...');
+                
+                // Clear all intervals
+                intervals.forEach(interval => clearInterval(interval));
+                intervals = [];
+                
+                // Clear all timeouts
+                timeouts.forEach(timeout => clearTimeout(timeout));
+                timeouts = [];
+                
+                // Stop vibration
+                if (window.navigator && window.navigator.vibrate) {
+                    window.navigator.vibrate(0);
+                }
+                
+                // Reset UI
+                vibrationIndicator.classList.remove('vibrating');
+                vibrationText.textContent = 'Ready for your surprise!';
+                loveMeter.style.width = '0%';
+                
+                // Reset button
+                surpriseBtn.textContent = '💝 Another Surprise? 💝';
+                surpriseBtn.disabled = false;
+                
+                // Reset message
+                message.innerHTML = 'Dear Teclar,<br><br>You\'re the best friend anyone could ask for!<br><span style="font-size: 1.2em;">💝 I love you! 💝</span>';
+                
+                // Clear floating hearts
+                floatingHearts.innerHTML = '';
+                
+                // Reset heart animation
+                heart.style.animation = 'heartbeat 1.5s ease-in-out infinite';
+                
+                isPlaying = false;
+            }
+            
+            // Initialize audio context
+            function initAudio() {
+                try {
+                    if (!audioContext) {
+                        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                        console.log('Audio context created:', audioContext.state);
+                    }
+                    if (audioContext.state === 'suspended') {
+                        audioContext.resume().then(() => {
+                            console.log('Audio context resumed');
+                        }).catch(e => {
+                            console.error('Error resuming audio:', e);
+                            errorMsg.textContent = 'Tap again to enable sound!';
+                            errorMsg.style.display = 'block';
+                            setTimeout(() => {
+                                errorMsg.style.display = 'none';
+                            }, 2000);
+                        });
+                    }
+                    return true;
+                } catch (e) {
+                    console.error('Audio not supported:', e);
+                    return false;
+                }
+            }
+            
+            // Play a single tone
+            function playTone(frequency, duration, time) {
+                if (!audioContext || audioContext.state !== 'running') return;
+                
+                try {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.type = 'sine';
+                    oscillator.frequency.value = frequency;
+                    
+                    gainNode.gain.value = 0.1;
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    const startTime = time || audioContext.currentTime;
+                    oscillator.start(startTime);
+                    oscillator.stop(startTime + duration / 1000);
+                    
+                    // Fade out
+                    gainNode.gain.setValueAtTime(0.1, startTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + duration / 1000);
+                } catch (e) {
+                    console.error('Error playing tone:', e);
+                }
+            }
+            
+            // Vibrate phone
+            function vibratePhone(pattern) {
+                if (window.navigator && window.navigator.vibrate) {
+                    try {
+                        window.navigator.vibrate(pattern);
+                        console.log('Vibration pattern sent:', pattern);
+                        
+                        vibrationIndicator.classList.add('vibrating');
+                        vibrationText.textContent = '💓 Vibrating with love! 💓';
+                        
+                        // Remove vibrating class after pattern ends
+                        const duration = Array.isArray(pattern) ? 
+                            pattern.reduce((a, b) => a + b, 0) : pattern;
+                        
+                        setTimeout(() => {
+                            vibrationIndicator.classList.remove('vibrating');
+                            vibrationText.textContent = 'Feel the love!';
+                        }, duration);
+                        
+                    } catch (e) {
+                        console.error('Vibration error:', e);
+                    }
+                } else {
+                    console.log('Vibration not supported');
+                    vibrationText.textContent = '💓 Love is in the air! 💓';
+                }
+            }
+            
+            // Play melody
+            function playMelody() {
+                if (!audioContext || audioContext.state !== 'running') return;
+                
+                const melody = melodies[Math.floor(Math.random() * melodies.length)];
+                let noteIndex = 0;
+                
+                function playNextNote() {
+                    if (noteIndex < melody.length && isPlaying) {
+                        playTone(melody[noteIndex], 300, audioContext.currentTime);
+                        
+                        // Update love meter
+                        loveMeter.style.width = ((noteIndex + 1) / melody.length * 100) + '%';
+                        
+                        noteIndex++;
+                        
+                        const timeout = setTimeout(playNextNote, 350);
+                        timeouts.push(timeout);
+                    }
+                }
+                
+                playNextNote();
+            }
+            
+            // Create floating heart
+            function createFloatingHeart() {
+                if (!isPlaying) return;
+                
+                const heart = document.createElement('span');
+                heart.className = 'heart-float';
+                heart.textContent = ['❤️', '💖', '💝', '💕', '💗'][Math.floor(Math.random() * 5)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                floatingHearts.appendChild(heart);
+                
+                const timeout = setTimeout(() => {
+                    heart.remove();
+                }, 3000);
+                timeouts.push(timeout);
+            }
+            
+            // Main surprise function
+            function startSurprise() {
+                console.log('Button clicked - starting surprise for Teclar!');
+                
+                if (isPlaying) {
+                    console.log('Stopping current surprise');
+                    cleanup();
+                    return;
+                }
+                
+                // Start new surprise
+                isPlaying = true;
+                surpriseBtn.textContent = '🎵 Experiencing Magic... 🎵';
+                surpriseBtn.disabled = true; // Disable button to prevent double clicks
+                
+                // Clear previous content
+                floatingHearts.innerHTML = '';
+                errorMsg.style.display = 'none';
+                
+                // Initialize audio (this requires user interaction)
+                const audioReady = initAudio();
+                if (!audioReady) {
+                    errorMsg.textContent = 'Audio not supported on this device';
+                    errorMsg.style.display = 'block';
+                }
+                
+                // Start vibration pattern
+                vibratePhone([200, 100, 200, 100, 500, 200, 200, 500]);
+                
+                // Play melody after a short delay
+                const melodyTimeout = setTimeout(() => {
+                    if (isPlaying) {
+                        playMelody();
+                    }
+                }, 100);
+                timeouts.push(melodyTimeout);
+                
+                // Create floating hearts interval
+                const heartInterval = setInterval(createFloatingHeart, 500);
+                intervals.push(heartInterval);
+                
+                // Change messages interval
+                let msgIndex = 0;
+                const msgInterval = setInterval(() => {
+                    if (isPlaying) {
+                        message.innerHTML = loveMessages[msgIndex % loveMessages.length] + 
+                            '<br><br><span style="font-size: 1.2em;">💝 For you, Teclar! 💝</span>';
+                        msgIndex++;
+                    }
+                }, 2000);
+                intervals.push(msgInterval);
+                
+                // Continuous gentle vibration
+                const vibeInterval = setInterval(() => {
+                    if (isPlaying) {
+                        vibratePhone([100, 50, 100, 50, 200]);
+                    }
+                }, 3000);
+                intervals.push(vibeInterval);
+                
+                // Auto-stop after 15 seconds
+                const stopTimeout = setTimeout(() => {
+                    if (isPlaying) {
+                        console.log('Auto-stopping surprise');
+                        cleanup();
+                    }
+                }, 15000);
+                timeouts.push(stopTimeout);
+            }
+            
+            // Add event listener to button
+            surpriseBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                startSurprise();
+            });
+            
+            // Also add touch event for mobile
+            surpriseBtn.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                startSurprise();
+            });
+            
+            // Handle page visibility
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden && isPlaying) {
+                    if (window.navigator && window.navigator.vibrate) {
+                        window.navigator.vibrate(0);
+                    }
+                }
+            });
+            
+            // Preload audio context on first interaction
+            document.body.addEventListener('touchstart', function initOnTouch() {
+                if (!audioContext) {
+                    initAudio();
+                }
+            }, { once: true });
+            
+            console.log('All event listeners attached - ready for Teclar!');
+        });
+    </script>
+</body>
+</html>
